@@ -26,7 +26,7 @@ labels = {
 
 # borne de recharge
 df = pd.read_csv(
-    "D:\Reporting\Reporting_Project\data\consolidation-etalab-schema-irve-statique-v-2.3.1-20240705.csv",
+    ".\data\consolidation-etalab-schema-irve-statique-v-2.3.1-20240705.csv",
     low_memory=False
     ,parse_dates=["date_mise_en_service"]
     ,dtype={"consolidated_code_postal": str
@@ -35,7 +35,7 @@ df = pd.read_csv(
 
 # Département
 df_dep = pd.read_csv(
-    "D:\Reporting\Reporting_Project\data\departements-france.csv"
+    ".\data\departements-france.csv"
     ,dtype={"code_departement": str
                         })
 
