@@ -1,0 +1,17 @@
+# Fichiers spécifiques à votre IDE ou éditeur de texte
+.vscode/
+.idea/
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+
+# Fichiers de configuration contenant des secrets
+config.ini
+secret_key.txt
+.env
+
+# Fichiers Python compilés
+__pycache__/
+*.pyc
