@@ -17,7 +17,7 @@ labels = {
     "nom_amenageur": "Nom amenageur"
     , "nom_operateur": "Nom opérateur"
     , "nom_enseigne": "Nom enseigne"
-    , "mis_en_service_cette_annee": "Mise en service en 2023"
+    , "mis_en_service_cette_annee": "Mise en service en 2024"
     , "date_mise_en_service": "Date de mise en service"
     , "puissance_nominale_cat": "Puissance nominale"
     , "prise_type_combo_ccs": "Possède une prise combo"
@@ -33,7 +33,7 @@ df = pd.read_csv(
              }) \
     .sort_values(['id_pdc_itinerance', 'last_modified']) \
  \
-# Département
+    # Département
 df_dep = pd.read_csv(
     ".\data\departements-france.csv"
     , dtype={"code_departement": str
@@ -60,14 +60,12 @@ df = pd.concat([
 # Remplacer les valeurs de mise en service avant 2010 par None
 df.loc[df["date_mise_en_service"] < pd.to_datetime("2010-01-01"), "date_mise_en_service"] = None
 # Vérifier si la mise en service a eu lieu en 2024 en ajoutant une colonne 'mis_en_service_cette_annee'
-df["mis_en_service_cette_annee"] = np.where(df["date_mise_en_service"].dt.year == pd.to_datetime("2024-01-01").year
-                                            , "Oui"
-                                            , "Non")
+df["mis_en_service_cette_annee"] = np.where(df["date_mise_en_service"].dt.year == 2024, "Oui", "Non")
 
 # Power
 # Normaliser les valeurs de la puissance et les catégoriser
-df["puissance_nominale_cat"] = pd.cut( \
-    df["puissance_nominale"].apply(lambda x: x / 1000 if x > 1000 else x) \
+df["puissance_nominale_cat"] = pd.cut(\
+    df["puissance_nominale"].apply(lambda x: x / 1000 if x > 1000 else x)\
     , [0, 1.8, 3.5, 7.5, 26, 52, 151, 500]
     , labels=["1.7", "3.4", "7.5", "22", "50", "150", ">150"]
     , include_lowest=False)
