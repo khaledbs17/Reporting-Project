@@ -64,8 +64,8 @@ df["mis_en_service_cette_annee"] = np.where(df["date_mise_en_service"].dt.year =
 
 # Power
 # Normaliser les valeurs de la puissance et les catégoriser
-df["puissance_nominale_cat"] = pd.cut(\
-    df["puissance_nominale"].apply(lambda x: x / 1000 if x > 1000 else x)\
+df["puissance_nominale_cat"] = pd.cut( \
+    df["puissance_nominale"].apply(lambda x: x / 1000 if x > 1000 else x) \
     , [0, 1.8, 3.5, 7.5, 26, 52, 151, 500]
     , labels=["1.7", "3.4", "7.5", "22", "50", "150", ">150"]
     , include_lowest=False)
@@ -105,3 +105,22 @@ def replace_nan_with_random(df, column):
 # Remplacer les valeurs NaN par des valeurs aléatoires pour chaque colonne spécifiée
 for column in ['paiement_cb', 'paiement_autre', 'raccordement']:
     replace_nan_with_random(df, column)
+
+# Véhicules
+# Chemin vers le fichier CSV
+file_path = '.\\data\\voitures-par-commune-par-energie.csv'
+
+# Spécifier les types de données pour les colonnes problématiques
+dtype_dict = {
+    'codgeo': str,  # Exemple de colonne à type chaîne
+    'epci': str,  # Exemple de colonne à type chaîne
+    # Ajoutez d'autres colonnes si nécessaire
+}
+
+# Lire le fichier CSV avec spécification des types de données
+try:
+    df_ve = pd.read_csv(file_path, delimiter=';', dtype=dtype_dict, on_bad_lines='warn', quoting=3)
+except Exception as e:
+    print(f"Erreur lors du chargement du fichier : {e}")
+
+df_ve = df_ve.drop(['nb_vp_rechargeables_gaz', 'libepci', 'epci'], axis=1)
